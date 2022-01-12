@@ -6,8 +6,6 @@ import { Camera } from 'expo-camera';
 
 import { useUpdate } from '@hashiprobr/react-use-mount-and-update';
 
-import Padding from './Padding';
-
 const AndroidCamera = forwardRef((props, ref) => {
     if (!ref) {
         ref = useRef();
@@ -22,9 +20,6 @@ const AndroidCamera = forwardRef((props, ref) => {
     function onLayout({ nativeEvent }) {
         setWidth(nativeEvent.layout.width);
         setHeight(nativeEvent.layout.height);
-        if (props.onLayout) {
-            props.onLayout();
-        }
     }
 
     function onCameraReady() {
@@ -80,70 +75,31 @@ const AndroidCamera = forwardRef((props, ref) => {
         }
     }, [width, height, ratios]);
 
-    const style = { ...props.style };
-
-    const { children, ...childless } = props;
+    const paddingStyle = {
+        flexBasis: basis,
+        backgroundColor: props.padColor || '#000000',
+    };
 
     return (
         <View
             style={{
-                ...props.viewStyle,
-                flexGrow: style.flexGrow,
-                alignSelf: style.alignSelf,
+                flexGrow: 1,
                 flexDirection: width < height ? 'column' : 'row',
-                flexWrap: 'nowrap',
-                justifyContent: 'flex-start',
-                alignItems: 'stretch',
-                margin: style.margin,
-                marginTop: style.marginTop,
-                marginRight: style.marginRight,
-                marginBottom: style.marginBottom,
-                marginLeft: style.marginLeft,
-                padding: 0,
-                paddingTop: 0,
-                paddingRight: 0,
-                paddingBottom: 0,
-                paddingLeft: 0,
-                overflow: 'visible',
             }}
             onLayout={onLayout}
         >
-            <Padding
-                basis={basis}
-                color={props.color}
+            <View
+                style={paddingStyle}
             />
             <Camera
-                {...childless}
+                {...props}
                 ref={ref}
-                style={{
-                    flexGrow: 1,
-                }}
                 ratio={ratio}
                 onCameraReady={onCameraReady}
             />
-            <Padding
-                basis={basis}
-                color={props.color}
-            />
             <View
-                style={{
-                    ...style,
-                    flexGrow: 1,
-                    alignSelf: 'stretch',
-                    position: 'absolute',
-                    top: 0,
-                    right: 0,
-                    bottom: 0,
-                    left: 0,
-                    margin: 0,
-                    marginTop: 0,
-                    marginRight: 0,
-                    marginBottom: 0,
-                    marginLeft: 0,
-                }}
-            >
-                {children}
-            </View>
+                style={paddingStyle}
+            />
         </View>
     );
 });
