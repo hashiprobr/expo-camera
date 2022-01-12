@@ -6,7 +6,7 @@ import { Platform } from 'react-native';
 
 import { Camera as OriginalCamera } from 'expo-camera';
 
-import AndroidCamera from 'AndroidCamera';
+import AndroidCamera from './AndroidCamera';
 
 function Camera(props) {
     return Platform.OS === 'android' ? (
