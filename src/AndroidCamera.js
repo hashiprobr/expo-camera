@@ -17,7 +17,7 @@ const AndroidCamera = forwardRef((props, ref) => {
     const [ratio, setRatio] = useState('4:3');
     const [basis, setBasis] = useState(0);
 
-    function onLayout({ nativeEvent }) {
+    function onViewLayout({ nativeEvent }) {
         setWidth(nativeEvent.layout.width);
         setHeight(nativeEvent.layout.height);
     }
@@ -44,16 +44,16 @@ const AndroidCamera = forwardRef((props, ref) => {
     useUpdate(() => {
         if (width > 0 && height > 0) {
             let outerRatio;
-            let outerLarge;
-            let outerSmall;
+            let large;
+            let small;
             if (width < height) {
                 outerRatio = height / width;
-                outerLarge = height;
-                outerSmall = width;
+                large = height;
+                small = width;
             } else {
                 outerRatio = width / height;
-                outerLarge = width;
-                outerSmall = height;
+                large = width;
+                small = height;
             }
             let bestDistance = Number.POSITIVE_INFINITY;
             let bestArray;
@@ -68,14 +68,14 @@ const AndroidCamera = forwardRef((props, ref) => {
                 }
             }
             setRatio(`${bestArray[0]}:${bestArray[1]}`);
-            setBasis((outerLarge - outerSmall * bestRatio) / 2);
+            setBasis((large - small * bestRatio) / 2);
         } else {
             setRatio('4:3');
             setBasis(0);
         }
     }, [width, height, ratios]);
 
-    const paddingStyle = {
+    const padStyle = {
         flexBasis: basis,
         backgroundColor: props.padColor || '#000000',
     };
@@ -86,10 +86,10 @@ const AndroidCamera = forwardRef((props, ref) => {
                 flexGrow: 1,
                 flexDirection: width < height ? 'column' : 'row',
             }}
-            onLayout={onLayout}
+            onLayout={onViewLayout}
         >
             <View
-                style={paddingStyle}
+                style={padStyle}
             />
             <Camera
                 {...props}
@@ -98,7 +98,7 @@ const AndroidCamera = forwardRef((props, ref) => {
                 onCameraReady={onCameraReady}
             />
             <View
-                style={paddingStyle}
+                style={padStyle}
             />
         </View>
     );

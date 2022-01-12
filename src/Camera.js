@@ -15,9 +15,12 @@ const Camera = forwardRef((props, ref) => {
     const [height, setHeight] = useState(0);
     const [basis, setBasis] = useState(0);
 
-    function onLayout({ nativeEvent }) {
+    function onViewLayout({ nativeEvent }) {
         setWidth(nativeEvent.layout.width);
         setHeight(nativeEvent.layout.height);
+        if (onLayout) {
+            onLayout({ nativeEvent });
+        }
     }
 
     useUpdate(() => {
@@ -39,7 +42,7 @@ const Camera = forwardRef((props, ref) => {
 
     const style = { ...props.style };
 
-    const { children, ...childless } = props;
+    const { onLayout, children, ...childless } = props;
 
     childless.style = {
         flexGrow: 1,
@@ -47,7 +50,7 @@ const Camera = forwardRef((props, ref) => {
 
     childless.ref = ref;
 
-    const paddingStyle = {
+    const cropStyle = {
         flexBasis: basis,
         backgroundColor: props.cropColor || '#000000',
         opacity: props.cropAlpha || 0.5,
@@ -75,7 +78,7 @@ const Camera = forwardRef((props, ref) => {
                 paddingLeft: 0,
                 overflow: 'visible',
             }}
-            onLayout={onLayout}
+            onLayout={onViewLayout}
         >
             {Platform.OS === 'android' ? (
                 <AndroidCamera
@@ -100,10 +103,10 @@ const Camera = forwardRef((props, ref) => {
                     }}
                 >
                     <View
-                        style={paddingStyle}
+                        style={cropStyle}
                     />
                     <View
-                        style={paddingStyle}
+                        style={cropStyle}
                     />
                 </View>
             )}
