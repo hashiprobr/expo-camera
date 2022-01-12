@@ -1,7 +1,7 @@
 {
   "name": "@hashiprobr/expo-camera",
-  "version": "1.0.7",
-  "description": "TODO",
+  "version": "1.0.8",
+  "description": "A modified version of expo-camera with automatic ratio in Android and additional configurability",
   "keywords": [
     "JavaScript",
     "React",
@@ -26,7 +26,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "peerDependencies": {
-    "@hashiprobr/react-use-mount-and-update": "~1.0.4",
+    "@hashiprobr/react-use-mount-and-update": "^1.0.4",
     "expo": "^43.0.5",
     "expo-camera": "^12.0.3",
     "hoist-non-react-statics": "^3.3.2",
