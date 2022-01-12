@@ -6,7 +6,7 @@ import { Camera } from 'expo-camera';
 
 import { useUpdate } from '@hashiprobr/react-use-mount-and-update';
 
-import Padding from './src/Padding';
+import Padding from './Padding';
 
 const AndroidCamera = forwardRef((props, ref) => {
     const [width, setWidth] = useState(0);
