@@ -90,6 +90,7 @@ const Camera = forwardRef((props, ref) => {
                 <View
                     style={{
                         flexGrow: 1,
+                        flexDirection: width < height ? 'column' : 'row',
                         justifyContent: 'space-between',
                         position: 'absolute',
                         top: 0,
