@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from 'react';
+import React, { forwardRef, useRef, useState } from 'react';
 
 import { View } from 'react-native';
 
@@ -9,6 +9,10 @@ import { useUpdate } from '@hashiprobr/react-use-mount-and-update';
 import Padding from './Padding';
 
 const AndroidCamera = forwardRef((props, ref) => {
+    if (!ref) {
+        ref = useRef();
+    }
+
     const [width, setWidth] = useState(0);
     const [height, setHeight] = useState(0);
     const [ratios, setRatios] = useState([[4, 3]]);
@@ -46,25 +50,30 @@ const AndroidCamera = forwardRef((props, ref) => {
         if (width > 0 && height > 0) {
             let outerRatio;
             let outerLarge;
+            let outerSmall;
             if (width < height) {
                 outerRatio = height / width;
                 outerLarge = height;
+                outerSmall = width;
             } else {
                 outerRatio = width / height;
                 outerLarge = width;
+                outerSmall = height;
             }
             let bestDistance = Number.POSITIVE_INFINITY;
             let bestArray;
+            let bestRatio;
             for (const array of ratios) {
                 const innerRatio = array[0] / array[1];
                 const distance = outerRatio - innerRatio;
                 if (distance >= 0 && distance < bestDistance) {
                     bestDistance = distance;
                     bestArray = array;
+                    bestRatio = innerRatio;
                 }
             }
             setRatio(`${bestArray[0]}:${bestArray[1]}`);
-            setBasis((outerLarge - bestArray[0]) / 2);
+            setBasis((outerLarge - outerSmall * bestRatio) / 2);
         } else {
             setRatio('4:3');
             setBasis(0);
@@ -72,6 +81,8 @@ const AndroidCamera = forwardRef((props, ref) => {
     }, [width, height, ratios]);
 
     const style = { ...props.style };
+
+    const { children, ...childless } = props;
 
     return (
         <View
@@ -102,7 +113,7 @@ const AndroidCamera = forwardRef((props, ref) => {
                 color={props.color}
             />
             <Camera
-                {...props}
+                {...childless}
                 ref={ref}
                 style={{
                     flexGrow: 1,
@@ -131,7 +142,7 @@ const AndroidCamera = forwardRef((props, ref) => {
                     marginLeft: 0,
                 }}
             >
-                {props.children}
+                {children}
             </View>
         </View>
     );
