@@ -11,12 +11,12 @@ Peer dependencies
 
 ``` json
 {
-    "@hashiprobr/react-use-mount-and-update": "^1.0.4",
-    "expo": "^43.0.5",
-    "expo-camera": "^12.0.3",
-    "hoist-non-react-statics": "^3.3.2",
-    "react": "^17.0.1",
-    "react-native": ">=0.64.3"
+    "@hashiprobr/react-use-mount-and-update": "1.0.5",
+    "expo": "45.0.0",
+    "expo-camera": "12.2.0",
+    "hoist-non-react-statics": "3.3.2",
+    "react": "17.0.2",
+    "react-native": "0.68.2"
 }
 ```
 
