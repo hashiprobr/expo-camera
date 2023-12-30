@@ -1,6 +1,8 @@
 expo-camera
 ===========
 
+[PROJECT DISCONTINUED]
+
 **A modified version of
 [expo-camera](https://docs.expo.dev/versions/latest/sdk/camera/) with automatic
 ratio in Android and additional configurability**
